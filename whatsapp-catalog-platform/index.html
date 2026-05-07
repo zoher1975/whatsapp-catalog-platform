@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+  <meta name="theme-color" content="#1a1a1a">
+  <title>Catalog Platform — WhatsApp Commerce</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared/platform.css">
+  <link rel="stylesheet" href="templates/jewelry/storefront.css">
+</head>
+<body class="template-jewelry" data-merchant="merchant-001">
+
+  <!-- ═══════════════════════════ ANNOUNCEMENT BAR ═══════════════════════════ -->
+  <div class="announcement-bar" id="announcementBar">
+    <div class="announcement-bar__inner">
+      <span class="announcement-bar__text">✦ Free shipping on orders above 200 SAR ✦ WhatsApp orders available 24/7 ✦</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ HEADER / NAV ═══════════════════════════ -->
+  <header class="site-header" id="siteHeader">
+    <div class="header__inner container">
+      <button class="header__menu-toggle" aria-label="Open menu" id="menuToggle">
+        <span></span><span></span><span></span>
+      </button>
+
+      <a href="index.html" class="site-logo">
+        <span class="site-logo__text">AmaniRenas</span>
+        <span class="site-logo__sub">Jewels & Beauty</span>
+      </a>
+
+      <nav class="header__nav" id="mainNav">
+        <ul class="nav-list">
+          <li><a href="#collections" class="nav-link">Collections</a></li>
+          <li><a href="#featured" class="nav-link">Featured</a></li>
+          <li><a href="catalog.html" class="nav-link">All Products</a></li>
+          <li><a href="#about" class="nav-link">About</a></li>
+        </ul>
+      </nav>
+
+      <div class="header__actions">
+        <button class="icon-btn" id="searchToggle" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <a href="https://wa.me/966500000000" class="whatsapp-cta" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          <span>Order via WhatsApp</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- Search Overlay -->
+    <div class="search-overlay" id="searchOverlay">
+      <div class="search-overlay__inner container">
+        <input type="search" placeholder="Search products, collections…" class="search-overlay__input" id="searchInput" autocomplete="off">
+        <button class="icon-btn search-overlay__close" id="searchClose">✕</button>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </header>
+
+  <!-- Mobile Nav Drawer -->
+  <div class="nav-drawer" id="navDrawer">
+    <div class="nav-drawer__header">
+      <span class="site-logo__text">AmaniRenas</span>
+      <button class="nav-drawer__close" id="navClose">✕</button>
+    </div>
+    <nav class="nav-drawer__body">
+      <ul>
+        <li><a href="#collections">Collections</a></li>
+        <li><a href="#featured">Featured</a></li>
+        <li><a href="catalog.html">All Products</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+      <div class="nav-drawer__footer">
+        <a href="https://wa.me/966500000000" class="btn btn--whatsapp" target="_blank">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          Contact Us on WhatsApp
+        </a>
+      </div>
+    </nav>
+  </div>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <main>
+    <!-- ═══════════════════════════ HERO SLIDESHOW ═══════════════════════════ -->
+    <section class="hero-slideshow" aria-label="Featured collections">
+      <div class="hero-slideshow__track" id="heroTrack">
+
+        <div class="hero-slide hero-slide--1 is-active">
+          <div class="hero-slide__bg">
+            <div class="hero-slide__gradient"></div>
+          </div>
+          <div class="hero-slide__content container">
+            <div class="hero-slide__tag">New Collection</div>
+            <h1 class="hero-slide__title">Sudanese Gold<br><em>Heritage Jewelry</em></h1>
+            <p class="hero-slide__desc">Handcrafted pieces rooted in Sudanese African heritage</p>
+            <div class="hero-slide__actions">
+              <a href="catalog.html" class="btn btn--primary">Shop Collection</a>
+              <a href="https://wa.me/966500000000?text=Hi%2C%20I'd%20like%20to%20inquire%20about%20your%20Gold%20Heritage%20collection" class="btn btn--whatsapp" target="_blank">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                Ask on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-slide hero-slide--2">
+          <div class="hero-slide__bg">
+            <div class="hero-slide__gradient"></div>
+          </div>
+          <div class="hero-slide__content container">
+            <div class="hero-slide__tag">Beauty Essentials</div>
+            <h1 class="hero-slide__title">Natural Sudanese<br><em>Beauty Rituals</em></h1>
+            <p class="hero-slide__desc">Khomra, Dalka, Bukhoor — authentic beauty from the Nile</p>
+            <div class="hero-slide__actions">
+              <a href="catalog.html?cat=beauty" class="btn btn--primary">Explore Beauty</a>
+              <a href="https://wa.me/966500000000?text=Hi%2C%20I'm%20interested%20in%20your%20beauty%20products" class="btn btn--whatsapp" target="_blank">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                Ask on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="hero-slideshow__controls">
+        <button class="hero-dot is-active" data-slide="0" aria-label="Slide 1"></button>
+        <button class="hero-dot" data-slide="1" aria-label="Slide 2"></button>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ TRUST BAR ═══════════════════════════ -->
+    <section class="trust-bar">
+      <div class="trust-bar__inner container">
+        <div class="trust-item">
+          <span class="trust-item__icon">🚚</span>
+          <span class="trust-item__label">Free Shipping over 200 SAR</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-item__icon">✦</span>
+          <span class="trust-item__label">Authentic Sudanese Heritage</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-item__icon">💬</span>
+          <span class="trust-item__label">WhatsApp Support 24/7</span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-item__icon">🔒</span>
+          <span class="trust-item__label">Secure Ordering</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ COLLECTIONS GRID ═══════════════════════════ -->
+    <section class="collections-section" id="collections">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-header__tag">Browse by Category</span>
+          <h2 class="section-header__title">Our Collections</h2>
+        </div>
+        <div class="collections-grid" id="collectionsGrid">
+          <!-- Dynamically rendered via JS from platform data -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ FEATURED PRODUCTS ═══════════════════════════ -->
+    <section class="featured-section" id="featured">
+      <div class="container">
+        <div class="section-header">
+          <span class="section-header__tag">Handpicked for You</span>
+          <h2 class="section-header__title">Featured Products</h2>
+          <div class="section-header__tabs" id="categoryTabs">
+            <button class="tab-btn is-active" data-cat="all">All</button>
+            <button class="tab-btn" data-cat="jewelry">Jewelry</button>
+            <button class="tab-btn" data-cat="beauty">Beauty</button>
+            <button class="tab-btn" data-cat="fragrance">Fragrance</button>
+          </div>
+        </div>
+        <div class="product-grid" id="productGrid">
+          <!-- Dynamically rendered via platform data -->
+        </div>
+        <div class="section-footer">
+          <a href="catalog.html" class="btn btn--outline">View All Products</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ ABOUT / HERITAGE BANNER ═══════════════════════════ -->
+    <section class="heritage-banner" id="about">
+      <div class="heritage-banner__inner container">
+        <div class="heritage-banner__media">
+          <div class="heritage-banner__image-placeholder">
+            <svg viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect width="400" height="300" fill="#2a1f0f"/>
+              <circle cx="200" cy="150" r="80" fill="none" stroke="#C9A84C" stroke-width="1" opacity="0.5"/>
+              <circle cx="200" cy="150" r="60" fill="none" stroke="#C9A84C" stroke-width="0.5" opacity="0.3"/>
+              <path d="M160 150 Q200 100 240 150 Q200 200 160 150Z" fill="#C9A84C" opacity="0.3"/>
+              <text x="200" y="155" font-family="serif" font-size="14" fill="#C9A84C" text-anchor="middle" opacity="0.8">✦ Heritage ✦</text>
+            </svg>
+          </div>
+        </div>
+        <div class="heritage-banner__content">
+          <span class="section-header__tag">Our Story</span>
+          <h2>Rooted in Sudanese<br><em>African Heritage</em></h2>
+          <p>AmaniRenas brings the richness of authentic Sudanese culture to global markets. Each piece tells a story — from the golden sands of the Nile to handcrafted beauty rituals passed through generations.</p>
+          <p>We partner with skilled artisans to deliver quality products that honor tradition while embracing the modern world.</p>
+          <a href="https://wa.me/966500000000?text=Tell%20me%20more%20about%20AmaniRenas" class="btn btn--whatsapp" target="_blank">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+            Chat with Us
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════ NEWSLETTER / WHATSAPP SUBSCRIBE ═══════════════════════════ -->
+    <section class="wa-connect-section">
+      <div class="wa-connect__inner container">
+        <div class="wa-connect__icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+        </div>
+        <h2 class="wa-connect__title">Get Exclusive Offers on WhatsApp</h2>
+        <p class="wa-connect__desc">Join our WhatsApp broadcast to receive new arrivals, special offers, and beauty tips directly on your phone.</p>
+        <a href="https://wa.me/966500000000?text=Subscribe%20me%20to%20AmaniRenas%20updates" class="btn btn--whatsapp btn--lg" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          Join Our WhatsApp Channel
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <!-- ═══════════════════════════ FOOTER ═══════════════════════════ -->
+  <footer class="site-footer">
+    <div class="site-footer__inner container">
+      <div class="footer-col footer-col--brand">
+        <div class="site-logo">
+          <span class="site-logo__text">AmaniRenas</span>
+          <span class="site-logo__sub">Jewels & Beauty</span>
+        </div>
+        <p class="footer-tagline">Authentic Sudanese African heritage, delivered worldwide.</p>
+        <div class="footer-social">
+          <a href="#" aria-label="Instagram">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+          </a>
+          <a href="#" aria-label="Facebook">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+          </a>
+          <a href="https://wa.me/966500000000" aria-label="WhatsApp" target="_blank">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-col__title">Shop</h4>
+        <ul class="footer-links">
+          <li><a href="catalog.html">All Products</a></li>
+          <li><a href="catalog.html?cat=jewelry">Jewelry</a></li>
+          <li><a href="catalog.html?cat=beauty">Beauty</a></li>
+          <li><a href="catalog.html?cat=fragrance">Fragrance</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-col__title">Support</h4>
+        <ul class="footer-links">
+          <li><a href="https://wa.me/966500000000" target="_blank">WhatsApp Orders</a></li>
+          <li><a href="#">Shipping Info</a></li>
+          <li><a href="#">Return Policy</a></li>
+          <li><a href="#">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4 class="footer-col__title">Contact</h4>
+        <ul class="footer-links">
+          <li>
+            <a href="https://wa.me/966500000000" target="_blank" class="footer-wa-link">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+              +966 50 000 0000
+            </a>
+          </li>
+          <li><a href="mailto:hello@amanirenas.uk">hello@amanirenas.uk</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="site-footer__bottom container">
+      <p>© 2025 AmaniRenas — Powered by <a href="platform.html">Smart Pages Catalog Platform</a></p>
+      <p class="footer-legal"><a href="#">Privacy Policy</a> · <a href="#">Terms</a></p>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════ FLOATING WHATSAPP BUTTON ═══════════════════════════ -->
+  <a href="https://wa.me/966500000000" class="wa-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+    <span class="wa-float__pulse"></span>
+  </a>
+
+  <!-- Product Quick View Modal -->
+  <div class="product-modal" id="productModal" role="dialog" aria-modal="true" aria-label="Product details">
+    <div class="product-modal__backdrop" id="modalBackdrop"></div>
+    <div class="product-modal__panel">
+      <button class="product-modal__close" id="modalClose">✕</button>
+      <div class="product-modal__body" id="modalBody">
+        <!-- Injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <script src="shared/platform-data.js"></script>
+  <script src="shared/platform.js"></script>
+  <script src="templates/jewelry/storefront.js"></script>
+</body>
+</html>

@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#1a1a1a">
+  <title>Catalog — AmaniRenas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="shared/platform.css">
+  <link rel="stylesheet" href="templates/jewelry/storefront.css">
+  <style>
+    .catalog-hero {
+      background: linear-gradient(135deg, #1c1812 0%, #2a2015 100%);
+      padding: 3rem 0 2.5rem;
+      color: white;
+      border-bottom: 1px solid rgba(201,168,76,0.2);
+    }
+    .catalog-hero__breadcrumb {
+      font-size: .75rem;
+      color: rgba(255,255,255,0.4);
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+    .catalog-hero__breadcrumb a { color: var(--c-accent); }
+    .catalog-hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 300;
+    }
+    .catalog-hero__count { font-size:.85rem; color:rgba(255,255,255,.5); margin-top:.5rem; }
+
+    .catalog-layout {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+      padding: 2rem 0 4rem;
+    }
+    @media (min-width: 900px) {
+      .catalog-layout { grid-template-columns: 240px 1fr; }
+    }
+
+    /* Sidebar Filters */
+    .catalog-sidebar { display: none; }
+    @media (min-width: 900px) { .catalog-sidebar { display: block; } }
+
+    .filter-group { margin-bottom: 2rem; }
+    .filter-group__title {
+      font-size: .7rem;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--c-accent);
+      font-weight: 600;
+      margin-bottom: 1rem;
+      padding-bottom: .5rem;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .filter-option {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      padding: .4rem 0;
+      cursor: pointer;
+      font-size: .9rem;
+      color: var(--c-text-muted);
+      transition: color var(--trans-fast);
+    }
+    .filter-option:hover, .filter-option.is-active { color: var(--c-text); }
+    .filter-option__dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      border: 1.5px solid var(--c-border);
+      flex-shrink: 0;
+      transition: border-color var(--trans-fast), background var(--trans-fast);
+    }
+    .filter-option.is-active .filter-option__dot {
+      border-color: var(--c-accent);
+      background: var(--c-accent);
+    }
+
+    /* Mobile Filter Bar */
+    .mobile-filter-bar {
+      display: flex;
+      gap: .5rem;
+      overflow-x: auto;
+      padding: 1rem 0;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .mobile-filter-bar::-webkit-scrollbar { display: none; }
+    @media (min-width: 900px) { .mobile-filter-bar { display: none; } }
+
+    .mobile-filter-chip {
+      flex-shrink: 0;
+      padding: .4rem 1rem;
+      border-radius: var(--radius-full);
+      border: 1.5px solid var(--c-border);
+      font-size: .8rem;
+      white-space: nowrap;
+      color: var(--c-text-muted);
+      background: transparent;
+      transition: all var(--trans-fast);
+    }
+    .mobile-filter-chip.is-active {
+      background: var(--c-text);
+      color: white;
+      border-color: var(--c-text);
+    }
+
+    /* Catalog toolbar */
+    .catalog-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: .75rem;
+    }
+    .catalog-toolbar__sort {
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .85rem;
+      color: var(--c-text-muted);
+    }
+    .catalog-toolbar__sort select {
+      border: 1px solid var(--c-border);
+      background: var(--c-surface);
+      padding: .35rem .75rem;
+      border-radius: var(--radius-sm);
+      font-size: .85rem;
+      color: var(--c-text);
+      outline: none;
+    }
+
+    /* WA sticky order button (mobile) */
+    .wa-sticky-bar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      z-index: 90;
+      background: var(--c-wa);
+      color: white;
+      padding: .875rem 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .75rem;
+      font-size: .95rem;
+      font-weight: 600;
+      box-shadow: 0 -4px 20px rgba(37,211,102,.3);
+      text-decoration: none;
+    }
+    @media (min-width: 900px) { .wa-sticky-bar { display: none; } }
+
+    /* Offset for sticky WA bar */
+    @media (max-width: 899px) {
+      main { padding-bottom: 60px; }
+    }
+
+    .load-more-btn {
+      display: block;
+      margin: 2rem auto 0;
+      min-width: 200px;
+    }
+
+    /* Empty state */
+    .catalog-empty {
+      grid-column: 1/-1;
+      text-align: center;
+      padding: 4rem 1rem;
+      color: var(--c-text-muted);
+    }
+    .catalog-empty__icon { font-size: 3rem; margin-bottom: 1rem; }
+    .catalog-empty__title { font-family: var(--font-display); font-size: 1.5rem; margin-bottom: .5rem; color: var(--c-text); }
+  </style>
+</head>
+<body class="template-jewelry" data-merchant="merchant-001">
+
+  <div class="announcement-bar">
+    <div class="announcement-bar__inner">
+      <span class="announcement-bar__text">✦ Free shipping on orders above 200 SAR ✦ WhatsApp orders available 24/7 ✦</span>
+    </div>
+  </div>
+
+  <header class="site-header" id="siteHeader">
+    <div class="header__inner container">
+      <button class="header__menu-toggle" id="menuToggle" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+      <a href="index.html" class="site-logo">
+        <span class="site-logo__text">AmaniRenas</span>
+        <span class="site-logo__sub">Jewels & Beauty</span>
+      </a>
+      <nav class="header__nav">
+        <ul class="nav-list">
+          <li><a href="index.html#collections" class="nav-link">Collections</a></li>
+          <li><a href="catalog.html" class="nav-link" aria-current="page">All Products</a></li>
+          <li><a href="index.html#about" class="nav-link">About</a></li>
+        </ul>
+      </nav>
+      <div class="header__actions">
+        <button class="icon-btn" id="searchToggle" aria-label="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </button>
+        <a href="https://wa.me/966500000000" class="whatsapp-cta" target="_blank">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+          <span>Order via WhatsApp</span>
+        </a>
+      </div>
+    </div>
+    <div class="search-overlay" id="searchOverlay">
+      <div class="search-overlay__inner container">
+        <input type="search" placeholder="Search products…" class="search-overlay__input" id="searchInput">
+        <button class="icon-btn" id="searchClose">✕</button>
+      </div>
+      <div class="search-results" id="searchResults"></div>
+    </div>
+  </header>
+
+  <div class="nav-drawer" id="navDrawer">
+    <div class="nav-drawer__header">
+      <span class="site-logo__text">AmaniRenas</span>
+      <button class="nav-drawer__close" id="navClose">✕</button>
+    </div>
+    <div class="nav-drawer__body">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#collections">Collections</a></li>
+        <li><a href="catalog.html">All Products</a></li>
+        <li><a href="index.html#about">About</a></li>
+      </ul>
+      <div class="nav-drawer__footer">
+        <a href="https://wa.me/966500000000" class="btn btn--whatsapp" target="_blank">Contact via WhatsApp</a>
+      </div>
+    </div>
+  </div>
+  <div class="nav-overlay" id="navOverlay"></div>
+
+  <main>
+    <!-- Catalog Hero -->
+    <div class="catalog-hero">
+      <div class="container">
+        <div class="catalog-hero__breadcrumb">
+          <a href="index.html">Home</a> / <span id="breadcrumbCategory">All Products</span>
+        </div>
+        <h1 class="catalog-hero__title" id="catalogTitle">All Products</h1>
+        <div class="catalog-hero__count" id="catalogCount">Loading…</div>
+      </div>
+    </div>
+
+    <!-- Mobile filter chips -->
+    <div class="container">
+      <div class="mobile-filter-bar" id="mobileFilterBar"></div>
+    </div>
+
+    <div class="container">
+      <div class="catalog-layout">
+        <!-- Sidebar -->
+        <aside class="catalog-sidebar">
+          <div class="filter-group">
+            <div class="filter-group__title">Category</div>
+            <div id="categoryFilter"></div>
+          </div>
+          <div class="filter-group">
+            <div class="filter-group__title">Collections</div>
+            <div id="collectionFilter"></div>
+          </div>
+          <div class="filter-group">
+            <div class="filter-group__title">Price Range</div>
+            <div id="priceFilter">
+              <label class="filter-option is-active" data-price="all">
+                <span class="filter-option__dot"></span> All Prices
+              </label>
+              <label class="filter-option" data-price="0-100">
+                <span class="filter-option__dot"></span> Under 100 SAR
+              </label>
+              <label class="filter-option" data-price="100-300">
+                <span class="filter-option__dot"></span> 100 – 300 SAR
+              </label>
+              <label class="filter-option" data-price="300-999999">
+                <span class="filter-option__dot"></span> Above 300 SAR
+              </label>
+            </div>
+          </div>
+        </aside>
+
+        <!-- Main catalog -->
+        <div class="catalog-main">
+          <div class="catalog-toolbar">
+            <span id="resultCount" style="font-size:.85rem;color:var(--c-text-muted)"></span>
+            <div class="catalog-toolbar__sort">
+              <label for="sortSelect" style="white-space:nowrap">Sort by:</label>
+              <select id="sortSelect">
+                <option value="featured">Featured</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="name">Name A–Z</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="product-grid" id="catalogGrid"></div>
+
+          <button class="btn btn--outline load-more-btn" id="loadMoreBtn" style="display:none">
+            Load More Products
+          </button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- WhatsApp sticky bar (mobile) -->
+  <a href="https://wa.me/966500000000" class="wa-sticky-bar" target="_blank" rel="noopener">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+    Order via WhatsApp
+  </a>
+
+  <!-- Product Modal -->
+  <div class="product-modal" id="productModal" role="dialog" aria-modal="true">
+    <div class="product-modal__backdrop" id="modalBackdrop"></div>
+    <div class="product-modal__panel">
+      <button class="product-modal__close" id="modalClose">✕</button>
+      <div class="product-modal__body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script src="shared/platform-data.js"></script>
+  <script src="shared/platform.js"></script>
+  <script src="templates/jewelry/storefront.js"></script>
+  <script>
+    // Catalog page specific logic
+    document.addEventListener('DOMContentLoaded', () => {
+      const DATA = window.PlatformData;
+      const params = new URLSearchParams(window.location.search);
+      let activeCategory = params.get('cat') || 'all';
+      let activeCollection = params.get('collection') || null;
+      let activePriceFilter = 'all';
+      let activeSort = 'featured';
+      const PAGE_SIZE = 8;
+      let currentPage = 1;
+
+      // Breadcrumb & title
+      if (activeCollection) {
+        const col = DATA.collections.find(c => c.slug === activeCollection);
+        if (col) {
+          document.getElementById('catalogTitle').textContent = col.title;
+          document.getElementById('breadcrumbCategory').textContent = col.title;
+          activeCategory = col.id.replace('col-', '');
+        }
+      }
+
+      // Build category filter (sidebar)
+      const categories = ['all', ...new Set(DATA.products.map(p => p.category))];
+      const catFilter = document.getElementById('categoryFilter');
+      if (catFilter) {
+        catFilter.innerHTML = categories.map(cat => `
+          <label class="filter-option ${cat === activeCategory ? 'is-active' : ''}" data-cat="${cat}">
+            <span class="filter-option__dot"></span>
+            ${cat === 'all' ? 'All Categories' : cat.charAt(0).toUpperCase() + cat.slice(1)}
+          </label>
+        `).join('');
+        catFilter.querySelectorAll('.filter-option').forEach(el => {
+          el.addEventListener('click', () => {
+            catFilter.querySelectorAll('.filter-option').forEach(e => e.classList.remove('is-active'));
+            el.classList.add('is-active');
+            activeCategory = el.dataset.cat;
+            currentPage = 1;
+            renderCatalog();
+            syncMobileChips();
+          });
+        });
+      }
+
+      // Build collection filter (sidebar)
+      const colFilter = document.getElementById('collectionFilter');
+      if (colFilter) {
+        colFilter.innerHTML = `
+          <label class="filter-option ${!activeCollection ? 'is-active' : ''}" data-col="">
+            <span class="filter-option__dot"></span> All Collections
+          </label>
+          ${DATA.collections.map(c => `
+            <label class="filter-option ${activeCollection === c.slug ? 'is-active' : ''}" data-col="${c.slug}">
+              <span class="filter-option__dot"></span> ${c.title}
+            </label>
+          `).join('')}
+        `;
+        colFilter.querySelectorAll('.filter-option').forEach(el => {
+          el.addEventListener('click', () => {
+            colFilter.querySelectorAll('.filter-option').forEach(e => e.classList.remove('is-active'));
+            el.classList.add('is-active');
+            activeCollection = el.dataset.col || null;
+            currentPage = 1;
+            renderCatalog();
+          });
+        });
+      }
+
+      // Price filter
+      document.getElementById('priceFilter')?.querySelectorAll('.filter-option').forEach(el => {
+        el.addEventListener('click', () => {
+          document.getElementById('priceFilter').querySelectorAll('.filter-option').forEach(e => e.classList.remove('is-active'));
+          el.classList.add('is-active');
+          activePriceFilter = el.dataset.price;
+          currentPage = 1;
+          renderCatalog();
+        });
+      });
+
+      // Sort
+      document.getElementById('sortSelect')?.addEventListener('change', e => {
+        activeSort = e.target.value;
+        currentPage = 1;
+        renderCatalog();
+      });
+
+      // Mobile filter chips
+      const mobileBar = document.getElementById('mobileFilterBar');
+      function buildMobileChips() {
+        if (!mobileBar) return;
+        const chips = [{ label: 'All', val: 'all' }, ...new Set(DATA.products.map(p => p.category))
+          .values()].map((c, i) => {
+            const val = typeof c === 'object' ? c.val : c;
+            const label = typeof c === 'object' ? c.label : (c.charAt(0).toUpperCase() + c.slice(1));
+            return `<button class="mobile-filter-chip ${activeCategory === val ? 'is-active' : ''}" data-cat="${val}">${label}</button>`;
+          });
+        mobileBar.innerHTML = chips.join('');
+        mobileBar.querySelectorAll('.mobile-filter-chip').forEach(btn => {
+          btn.addEventListener('click', () => {
+            activeCategory = btn.dataset.cat;
+            currentPage = 1;
+            renderCatalog();
+            syncMobileChips();
+          });
+        });
+      }
+      function syncMobileChips() {
+        mobileBar?.querySelectorAll('.mobile-filter-chip').forEach(btn => {
+          btn.classList.toggle('is-active', btn.dataset.cat === activeCategory);
+        });
+      }
+      buildMobileChips();
+
+      // Load more
+      document.getElementById('loadMoreBtn')?.addEventListener('click', () => {
+        currentPage++;
+        renderCatalog(true);
+      });
+
+      function getFilteredProducts() {
+        let products = [...DATA.products];
+        if (activeCategory !== 'all') {
+          products = products.filter(p => p.category === activeCategory);
+        }
+        if (activeCollection) {
+          const col = DATA.collections.find(c => c.slug === activeCollection);
+          if (col) products = products.filter(p => p.collection === col.id);
+        }
+        if (activePriceFilter !== 'all') {
+          const [min, max] = activePriceFilter.split('-').map(Number);
+          products = products.filter(p => p.price >= min && p.price <= max);
+        }
+        switch (activeSort) {
+          case 'price-asc':  products.sort((a,b) => a.price - b.price); break;
+          case 'price-desc': products.sort((a,b) => b.price - a.price); break;
+          case 'name':       products.sort((a,b) => a.title.localeCompare(b.title)); break;
+          default:           products.sort((a,b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+        }
+        return products;
+      }
+
+      function renderCatalog(append = false) {
+        const grid = document.getElementById('catalogGrid');
+        const products = getFilteredProducts();
+        const total = products.length;
+        const paged = products.slice(0, currentPage * PAGE_SIZE);
+
+        document.getElementById('catalogCount').textContent = `${total} products`;
+        document.getElementById('resultCount').textContent = `Showing ${paged.length} of ${total} products`;
+
+        if (!append) grid.innerHTML = '';
+
+        const from = append ? (currentPage - 1) * PAGE_SIZE : 0;
+        const toAdd = products.slice(from, currentPage * PAGE_SIZE);
+
+        if (total === 0) {
+          grid.innerHTML = `
+            <div class="catalog-empty">
+              <div class="catalog-empty__icon">✦</div>
+              <div class="catalog-empty__title">No products found</div>
+              <p>Try adjusting your filters or <a href="catalog.html" style="color:var(--c-accent)">view all products</a>.</p>
+            </div>`;
+          document.getElementById('loadMoreBtn').style.display = 'none';
+          return;
+        }
+
+        toAdd.forEach((p, i) => {
+          const card = window.Platform?.buildProductCard ? null : null;
+          // Use platform's card builder if available
+          const div = document.createElement('div');
+          div.innerHTML = buildCard(p);
+          const cardEl = div.firstElementChild;
+          cardEl.style.animationDelay = `${i * 0.04}s`;
+          cardEl.classList.add('animate-in');
+          cardEl.addEventListener('click', e => {
+            if (!e.target.closest('.btn')) {
+              // open modal
+              window.Platform && window.Platform.openModal(p);
+            }
+          });
+          grid.appendChild(cardEl);
+        });
+
+        document.getElementById('loadMoreBtn').style.display =
+          paged.length < total ? 'block' : 'none';
+      }
+
+      function buildCard(p) {
+        const M = DATA.merchant;
+        const waUrl = `https://wa.me/${M.whatsapp}?text=${encodeURIComponent(`Hello! 👋 I'd like to order:\n\n*${p.title}*\nPrice: ${M.currencySymbol} ${p.price}\n\nPlease confirm availability.`)}`;
+        const comparePrice = p.compareAtPrice
+          ? `<span class="product-card__price--original">${M.currencySymbol} ${p.compareAtPrice}</span>` : '';
+        return `
+          <div class="product-card" data-product-id="${p.id}" style="cursor:pointer">
+            <div class="product-card__media">
+              ${p.badge ? `<span class="product-card__badge">${p.badge}</span>` : ''}
+              <div class="product-card__img-placeholder">
+                <svg viewBox="0 0 100 100" fill="none">
+                  <circle cx="50" cy="50" r="30" fill="none" stroke="#C9A84C" stroke-width=".8" opacity=".5"/>
+                  <text x="50" y="55" font-family="serif" font-size="18" fill="#C9A84C" text-anchor="middle" opacity=".4">✦</text>
+                </svg>
+              </div>
+              <div class="product-card__quick">
+                <a href="${waUrl}" class="btn btn--whatsapp" target="_blank" onclick="event.stopPropagation()">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>
+                  Quick Order
+                </a>
+              </div>
+            </div>
+            <div class="product-card__info">
+              <div class="product-card__category">${p.category}</div>
+              <div class="product-card__title">${p.title}</div>
+              <div><span class="product-card__price">${M.currencySymbol} ${p.price}</span>${comparePrice}</div>
+            </div>
+          </div>`;
+      }
+
+      renderCatalog();
+    });
+  </script>
+</body>
+</html>
